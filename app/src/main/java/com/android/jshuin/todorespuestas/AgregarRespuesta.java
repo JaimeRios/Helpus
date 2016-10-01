@@ -9,13 +9,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class AgregarRespuesta extends AppCompatActivity {
 
@@ -28,6 +33,8 @@ public class AgregarRespuesta extends AppCompatActivity {
     EditText correo;
     @BindView(R.id.ListaReslistaRespuestas)
     ListView listaRespuetas;
+    @BindView(R.id.ListaResAgregarRespuesta)
+    Button AgregarResButton;
 
 
     @Override
@@ -43,14 +50,13 @@ public class AgregarRespuesta extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent irAMain= new Intent(AgregarRespuesta.this,MainActivity.class);
-                irAMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(irAMain);
+
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Tema = getIntent().getStringExtra("Tema");
         titulo.setText(Tema);
+        traerRespuestas();
     }
 
     @Override
@@ -78,6 +84,29 @@ public class AgregarRespuesta extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    //metodo que llama el boton registrar respuesta
+    @OnClick(R.id.ListaResAgregarRespuesta)
+    public void registrarRespuesta(){
+        if(nuevaRespuesta.getText().toString().matches("")||correo.getText().toString().matches("")){
+            Toast.makeText(getApplicationContext(),"Por favor complete toda la informacion",Toast.LENGTH_SHORT).show();
+        }else{
+            ///ingrsese la informacion a base de datos
+            Intent irAListaPreguntas = new Intent(AgregarRespuesta.this,ListaPreguntas.class);
+            irAListaPreguntas.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(irAListaPreguntas);
+            finish();
+        }
+
+    }
+
+    public void traerRespuestas(){
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add("Eso es posible realizando lo siguiente"+" Respondio "+"Jefferson el 23 de Septeimbre 5:30");
+        arrayList.add("Para realizar lo que deseas debes comenzar teniendo en cuenta tu objetivo"+" Respondio "+"Yeddy el 24 de Septeimbre 12:50");
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplication(),android.R.layout.simple_list_item_1,arrayList);
+        listaRespuetas.setAdapter(arrayAdapter);
     }
 
 }

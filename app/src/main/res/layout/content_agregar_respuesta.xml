@@ -74,4 +74,13 @@
 
     </android.support.design.widget.TextInputLayout>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ListaResAgregarRespuesta"
+        android:layout_below="@+id/ListaRestextimput2"
+        android:text="Enviar Respuesta"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+
 </RelativeLayout>
