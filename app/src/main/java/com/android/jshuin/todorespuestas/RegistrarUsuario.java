@@ -1,9 +1,11 @@
 package com.android.jshuin.todorespuestas;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -61,10 +63,30 @@ public class RegistrarUsuario extends AppCompatActivity {
 
         switch (id){
             case R.id.Sobrenosotros2:
-                Toast.makeText(getApplicationContext(),"sobre nosotros",Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder dialog = new AlertDialog.Builder(RegistrarUsuario.this);
+                dialog.setMessage(R.string.sobreNosotros)
+                        .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Nothing
+                            }
+                        });
+                AlertDialog mensaje = dialog.create();
+                mensaje.setTitle("Sobre Nosotros");
+                mensaje.show();
                 return true;
             case R.id.SobreAplicacion2:
-                Toast.makeText(getApplicationContext(),"sobre la aplicacion ",Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder dialog2 = new AlertDialog.Builder(RegistrarUsuario.this);
+                dialog2.setMessage(R.string.sobreAplicacion)
+                        .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Nothing
+                            }
+                        });
+                AlertDialog mensaje2 = dialog2.create();
+                mensaje2.setTitle("Sobre La Aplicación");
+                mensaje2.show();
                 return true;
         }
         return super.onOptionsItemSelected(item);

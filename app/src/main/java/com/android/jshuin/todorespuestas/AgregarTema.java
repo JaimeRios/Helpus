@@ -1,9 +1,13 @@
 package com.android.jshuin.todorespuestas;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.icu.text.IDNA;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -60,10 +64,30 @@ public class AgregarTema extends AppCompatActivity {
 
         switch (id){
             case R.id.Sobrenosotros:
-                Toast.makeText(getApplicationContext(),"sobre nosotros",Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder dialog = new AlertDialog.Builder(AgregarTema.this);
+                dialog.setMessage(R.string.sobreNosotros)
+                        .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Nothing
+                            }
+                        });
+                AlertDialog mensaje = dialog.create();
+                mensaje.setTitle("Sobre Nosotros");
+                mensaje.show();
                 return true;
             case R.id.SobreAplicacion:
-                Toast.makeText(getApplicationContext(),"sobre la aplicacion ",Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder dialog2 = new AlertDialog.Builder(AgregarTema.this);
+                dialog2.setMessage(R.string.sobreAplicacion)
+                        .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Nothing
+                            }
+                        });
+                AlertDialog mensaje2 = dialog2.create();
+                mensaje2.setTitle("Sobre La Aplicación");
+                mensaje2.show();
                 return true;
             case R.id.cerrarSesion:
                 Toast.makeText(getApplicationContext(),"cerrando sesion",Toast.LENGTH_SHORT).show();
