@@ -15,7 +15,7 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textimput21"
+        android:id="@+id/agregarTematextimput1"
         android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
@@ -24,7 +24,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tituloTema"
+            android:id="@+id/agregarTematituloTema"
             android:hint="Ingrese Titulo del Tema"
             android:textAlignment="center"
             android:inputType="text"
@@ -38,18 +38,18 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textimput22"
+        android:id="@+id/agregarTematextimput2"
         android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:gravity="center_horizontal"
-        android:layout_below="@+id/textimput21">
+        android:layout_below="@+id/agregarTematextimput1">
 
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/pregunta"
+            android:id="@+id/agregarTemapregunta"
             android:hint="Agregar Pregunta"
             android:textAlignment="center"
             android:inputType="text"
@@ -63,18 +63,18 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textimput23"
+        android:id="@+id/agregarTematextimput3"
         android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:gravity="center_horizontal"
-        android:layout_below="@+id/textimput22">
+        android:layout_below="@+id/agregarTematextimput2">
 
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/correo"
+            android:id="@+id/agregarTemacorreo"
             android:hint="Agregar correo"
             android:textAlignment="center"
             android:inputType="text"
@@ -92,7 +92,7 @@
         android:id="@+id/agregarTemaButtom"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:layout_below="@+id/textimput23"
+        android:layout_below="@+id/agregarTematextimput3"
         />
 
 
