@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">TodoRespuestas</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_registrar_usuario">RegistrarUsuario</string>
+    <string name="title_activity_lista_preguntas">ListaPreguntas</string>
+    <string name="title_activity_agregar_tema">AgregarTema</string>
+    <string name="title_activity_agregar_respuesta">AgregarRespuesta</string>
+    <string name="opcion1">Sobre los creadores</string>
+    <string name="opcion2">Sobre la aplicacion</string>
+    <string name="opcion3">Cerrar sesion</string>
+</resources>

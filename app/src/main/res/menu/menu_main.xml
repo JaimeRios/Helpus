@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.android.jshuin.todorespuestas.ListaPreguntas">
+
+    <item
+        android:id="@+id/Sobrenosotros"
+        android:orderInCategory="100"
+        android:title="@string/opcion1"
+        ></item>
+
+    <item
+        android:id="@+id/SobreAplicacion"
+        android:orderInCategory="100"
+        android:title="@string/opcion2"
+        ></item>
+
+    <item
+        android:id="@+id/cerrarSesion"
+        android:orderInCategory="100"
+        android:title="@string/opcion3"
+        ></item>
+
+
+</menu>
