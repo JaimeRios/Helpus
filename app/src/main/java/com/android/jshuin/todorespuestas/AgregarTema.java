@@ -1,8 +1,10 @@
 package com.android.jshuin.todorespuestas;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.icu.text.IDNA;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -50,6 +52,11 @@ public class AgregarTema extends AppCompatActivity {
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        SharedPreferences datos = getSharedPreferences("datosusuario", Context.MODE_PRIVATE);
+        correo.setText(datos.getString("correo",""));
+        SharedPreferences.Editor editor = datos.edit();
+        editor.putString("correo",correo.getText().toString());
+        editor.commit();
     }
 
     @Override

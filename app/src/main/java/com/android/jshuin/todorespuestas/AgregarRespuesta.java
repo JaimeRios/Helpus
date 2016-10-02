@@ -1,7 +1,9 @@
 package com.android.jshuin.todorespuestas;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -129,6 +131,12 @@ public class AgregarRespuesta extends AppCompatActivity {
         arrayList.add("Para realizar lo que deseas debes comenzar teniendo en cuenta tu objetivo"+" Respondio "+"Yeddy el 24 de Septeimbre 12:50");
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplication(),android.R.layout.simple_list_item_1,arrayList);
         listaRespuetas.setAdapter(arrayAdapter);
+
+        SharedPreferences datos = getSharedPreferences("datosusuario", Context.MODE_PRIVATE);
+        correo.setText(datos.getString("correo",""));
+        SharedPreferences.Editor editor = datos.edit();
+        editor.putString("correo",correo.getText().toString());
+        editor.commit();
     }
 
 }

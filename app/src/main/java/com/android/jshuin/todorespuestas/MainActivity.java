@@ -1,7 +1,9 @@
 package com.android.jshuin.todorespuestas;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -97,6 +99,11 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Ingresando",Toast.LENGTH_SHORT).show();
             Intent irAListaPreguntas = new Intent(MainActivity.this,ListaPreguntas.class);
             startActivity(irAListaPreguntas);
+
+            SharedPreferences datos = getSharedPreferences("datosusuario", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = datos.edit();
+            editor.putString("correo","aplicacion@gmail.com");
+            editor.commit();
 
         }
 

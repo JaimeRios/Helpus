@@ -1,7 +1,9 @@
 package com.android.jshuin.todorespuestas;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -101,6 +103,10 @@ public class RegistrarUsuario extends AppCompatActivity {
             if(contrasena1.getText().toString().matches(contrasena2.getText().toString())){
                 Toast.makeText(getApplicationContext(),"Registrando usuario",Toast.LENGTH_SHORT).show();
                 //finish();
+                SharedPreferences datos = getSharedPreferences("datosusuario", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = datos.edit();
+                editor.putString("correo","aplicacion@gmail.com");
+                editor.commit();
                 Intent irAListaPreguntas = new Intent(RegistrarUsuario.this,ListaPreguntas.class);
                 irAListaPreguntas.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(irAListaPreguntas);
