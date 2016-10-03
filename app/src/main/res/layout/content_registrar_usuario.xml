@@ -27,7 +27,7 @@
             android:id="@+id/Registraringresarusuario"
             android:hint="Ingrese nombre de usuario"
             android:textAlignment="center"
-            android:inputType="text"
+            android:inputType=""
             android:ems="12"
             android:gravity="center_horizontal"
             android:textSize="20sp"
@@ -100,7 +100,7 @@
             android:id="@+id/Registraringresarcorreo"
             android:hint="Ingresar correo"
             android:textAlignment="center"
-            android:inputType="text"
+            android:inputType="textEmailAddress"
             android:ems="12"
             android:gravity="center_horizontal"
             android:textSize="20sp"/>

@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,6 +52,7 @@ public class RegistrarUsuario extends AppCompatActivity {
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
     @Override
@@ -98,22 +100,56 @@ public class RegistrarUsuario extends AppCompatActivity {
     public void registrar(){
         if(nombreUsuario.getText().toString().matches("")||contrasena1.getText().toString().matches("")||
                 contrasena2.getText().toString().matches("")||correo.getText().toString().matches("")){
-            Toast.makeText(getApplicationContext(),"Por favor ingrese todos los datos",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Completa todos los campos",Toast.LENGTH_SHORT).show();
         }else{
-            if(contrasena1.getText().toString().matches(contrasena2.getText().toString())){
-                Toast.makeText(getApplicationContext(),"Registrando usuario",Toast.LENGTH_SHORT).show();
-                //finish();
-                SharedPreferences datos = getSharedPreferences("datosusuario", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = datos.edit();
-                editor.putString("correo","aplicacion@gmail.com");
-                editor.commit();
-                Intent irAListaPreguntas = new Intent(RegistrarUsuario.this,ListaPreguntas.class);
-                irAListaPreguntas.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(irAListaPreguntas);
-                finish();
-            }else{
+
+                if(validationsAreOkay()){
+
+                    Toast.makeText(getApplicationContext(),"El usuario ha sido registrado",Toast.LENGTH_SHORT).show();
+                    //finish();
+                    SharedPreferences datos = getSharedPreferences("datosusuario", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = datos.edit();
+                    editor.putString("correo","aplicacion@gmail.com");
+                    editor.commit();
+                    Intent irAListaPreguntas = new Intent(RegistrarUsuario.this,MainActivity.class);
+                    irAListaPreguntas.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(irAListaPreguntas);
+                    finish();
+                }
+        }
+    }
+
+    private boolean validationsAreOkay() {
+
+        boolean valueToReturn = false;
+        if(userAlreadyExist()){
+            Toast.makeText(getApplicationContext(),"El usuario que intentas registrar ya existe",Toast.LENGTH_LONG).show();
+        }else {
+
+            if(!contrasena1.getText().toString().matches(contrasena2.getText().toString())){
                 Toast.makeText(getApplicationContext(),"Las contraseñas no coinciden",Toast.LENGTH_SHORT).show();
+            }else{
+                if(!android.util.Patterns.EMAIL_ADDRESS.matcher(correo.getText().toString()).matches()){
+                    Toast.makeText(getApplicationContext(),"Formato de email incorrecto",Toast.LENGTH_SHORT).show();
+                }else {
+                    // Successfull
+                    valueToReturn = true;
+                }
             }
         }
+
+        return valueToReturn;
+    }
+
+    private boolean userAlreadyExist() {
+
+        boolean valueToReturn = false;
+        // Validate there is an user registered with this alias
+        if(nombreUsuario.getText().toString().equals("Jeff")){
+
+            valueToReturn = true;
+        }
+
+        return  valueToReturn;
     }
 }
