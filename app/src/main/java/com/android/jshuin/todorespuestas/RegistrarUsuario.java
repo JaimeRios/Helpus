@@ -21,6 +21,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -38,6 +49,11 @@ public class RegistrarUsuario extends AppCompatActivity {
     @BindView(R.id.RegistrarButtom)
     Button registrarUsuario;
 
+    RequestQueue requestQueue;
+    StringRequest stringRequest;
+
+    private static final String URL= "http://172.17.2.20:8888/Clientesres/ingresar.php";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +61,8 @@ public class RegistrarUsuario extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
+
+        requestQueue= Volley.newRequestQueue(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -105,10 +123,35 @@ public class RegistrarUsuario extends AppCompatActivity {
                 contrasena2.getText().toString().matches("")||correo.getText().toString().matches("")){
             Toast.makeText(getApplicationContext(),"Completa todos los campos",Toast.LENGTH_SHORT).show();
         }else{
+            stringRequest= new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Toast.makeText(getApplicationContext(),"sus datos han sido ingresados",Toast.LENGTH_LONG).show();
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getApplicationContext(),""+error,Toast.LENGTH_LONG).show();
+
+                }
+            }){
+                @Override
+                protected Map<String,String> getParams ()throws AuthFailureError {
+                    HashMap<String,String> envio= new HashMap<>();
+                    envio.put("nombre",nombreUsuario.getText().toString());
+                    envio.put("contra",contrasena1.getText().toString());
+                    envio.put("contra2",contrasena2.getText().toString());
+                    envio.put("correo",correo.getText().toString());
+                    return envio;
+                }
+            };
+            requestQueue.add(stringRequest);
 
                 if(validationsAreOkay()){
 
                     manageProgressDialog();
+
                 }
         }
     }
@@ -181,6 +224,5 @@ public class RegistrarUsuario extends AppCompatActivity {
 
         return  valueToReturn;
     }
-
 
 }

@@ -20,6 +20,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -35,11 +49,21 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.Maincontra)
     EditText contrasena;
 
+    RequestQueue requestQueue;
+    StringRequest stringRequest;
+
+    Boolean loginSuccessfull;
+
+    private static final String URL= "http://172.17.2.20:8888/Clientesres/consultar.php";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        requestQueue= Volley.newRequestQueue(this);
+        loginSuccessfull= false;
 
         viewSettings();
     }
@@ -95,9 +119,60 @@ public class MainActivity extends AppCompatActivity {
         if(nombreUsuario.getText().toString().matches("")||contrasena.getText().toString().matches("")){
             Toast.makeText(getApplicationContext(),"Ingresa tu usuario y contraseña",Toast.LENGTH_LONG).show();
         }else{
-            manageProgressDialog();
-        }
 
+            makeHttpRequest();
+            if(loginSuccessfull){
+                manageProgressDialog();
+            }else {
+                Toast.makeText(getApplicationContext(),"Usuario o Contraseña Incorrecta",Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private void makeHttpRequest() {
+        stringRequest= new StringRequest(Request.Method.POST, URL, new
+                Response.Listener<String>(){
+                    @Override
+                    public void onResponse (String Response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(Response);
+
+                            if (jsonObject.names().get(0).equals("logueado")) {
+                                loginSuccessfull=true;
+                                String correousu = jsonObject.getString("logueado");
+                                SharedPreferences guardar =getSharedPreferences("datosusuario", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = guardar.edit();
+                                editor.putString("correo", correousu);
+                                editor.commit();
+                                //Toast.makeText(getApplicationContext(), "Bienvenido" + correousu, Toast.LENGTH_LONG).show();
+                                //startActivity(new Intent(getApplicationContext(),ListaPreguntas.class));
+                            }
+                            else{
+                                loginSuccessfull=false;
+                                //Toast.makeText(getApplicationContext(),"Error"+jsonObject.getString("error"),Toast.LENGTH_LONG).show();
+                            }
+                        } catch (JSONException e) {
+                            //
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse (VolleyError error){
+                Toast.makeText(getApplicationContext(),""+error,Toast.LENGTH_LONG).show();
+
+            }
+        }){
+            @Override
+            protected Map<String,String> getParams()throws AuthFailureError {
+                HashMap<String,String> envio= new HashMap<>();
+                envio.put("usuario",nombreUsuario.getText().toString());
+                envio.put("contra",contrasena.getText().toString());
+                return  envio;
+
+            }
+        };
+        requestQueue.add(stringRequest);
     }
 
 
@@ -124,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
                         prepareNextActivity();
                         progressDialog.dismiss();
                     }
-                }, 3000);
+                }, 2000);
 
     }
 
@@ -133,10 +208,10 @@ public class MainActivity extends AppCompatActivity {
         Intent irAListaPreguntas = new Intent(MainActivity.this,ListaPreguntas.class);
         startActivity(irAListaPreguntas);
 
-        SharedPreferences datos = getSharedPreferences("datosusuario", Context.MODE_PRIVATE);
+        /*SharedPreferences datos = getSharedPreferences("datosusuario", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = datos.edit();
         editor.putString("correo","aplicacion@gmail.com");
-        editor.commit();
+        editor.commit();*/
     }
 
 }
