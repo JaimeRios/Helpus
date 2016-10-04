@@ -52,7 +52,7 @@ public class RegistrarUsuario extends AppCompatActivity {
     RequestQueue requestQueue;
     StringRequest stringRequest;
 
-    private static final String URL= "http://172.17.2.20:8888/Clientesres/ingresar.php";
+    private static final String URL= "http://172.17.2.20:8888/Clientesres/insertar.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,37 +123,41 @@ public class RegistrarUsuario extends AppCompatActivity {
                 contrasena2.getText().toString().matches("")||correo.getText().toString().matches("")){
             Toast.makeText(getApplicationContext(),"Completa todos los campos",Toast.LENGTH_SHORT).show();
         }else{
-            stringRequest= new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Toast.makeText(getApplicationContext(),"sus datos han sido ingresados",Toast.LENGTH_LONG).show();
-
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getApplicationContext(),""+error,Toast.LENGTH_LONG).show();
-
-                }
-            }){
-                @Override
-                protected Map<String,String> getParams ()throws AuthFailureError {
-                    HashMap<String,String> envio= new HashMap<>();
-                    envio.put("nombre",nombreUsuario.getText().toString());
-                    envio.put("contra",contrasena1.getText().toString());
-                    envio.put("contra2",contrasena2.getText().toString());
-                    envio.put("correo",correo.getText().toString());
-                    return envio;
-                }
-            };
-            requestQueue.add(stringRequest);
-
-                if(validationsAreOkay()){
-
-                    manageProgressDialog();
-
-                }
+            if(validationsAreOkay()){
+                makeHttpRequest();
+                manageProgressDialog();
+            }
         }
+    }
+
+    private void makeHttpRequest() {
+
+        stringRequest= new StringRequest(Request.Method.POST, URL, new
+                Response.Listener<String>(){
+                    @Override
+                    public void onResponse (String Response) {
+                        //Toast.makeText(getApplicationContext(), "sus datos ha sido ingresado", Toast.LENGTH_LONG).show();
+                    }
+                }, new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse (VolleyError error){
+                Toast.makeText(getApplicationContext(),""+error,Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String,String>getParams()throws AuthFailureError{
+                HashMap<String,String>envio= new HashMap<>();
+                envio.put("nombre",nombreUsuario.getText().toString());
+                envio.put("correo",correo.getText().toString());
+                envio.put("contra2",contrasena2.getText().toString());
+                envio.put("contra",contrasena1.getText().toString());
+                return  envio;
+
+            }
+        };
+        requestQueue.add(stringRequest);
+
+
     }
 
     private void manageProgressDialog() {
@@ -173,17 +177,12 @@ public class RegistrarUsuario extends AppCompatActivity {
                         prepareNextActivity();
                         progressDialog.dismiss();
                     }
-                }, 3000);
+                }, 2000);
 
     }
 
     private void prepareNextActivity() {
 
-        Toast.makeText(getApplicationContext(),"El usuario ha sido registrado. Ya puedes iniciar sesión",Toast.LENGTH_SHORT).show();
-        SharedPreferences datos = getSharedPreferences("datosusuario", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = datos.edit();
-        editor.putString("correo","aplicacion@gmail.com");
-        editor.commit();
         Intent irAListaPreguntas = new Intent(RegistrarUsuario.this,MainActivity.class);
         irAListaPreguntas.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(irAListaPreguntas);
@@ -220,6 +219,10 @@ public class RegistrarUsuario extends AppCompatActivity {
         if(nombreUsuario.getText().toString().equals("Jeff")){
 
             valueToReturn = true;
+        }else {
+
+
+            valueToReturn = false;
         }
 
         return  valueToReturn;
