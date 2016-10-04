@@ -1,5 +1,6 @@
 package com.android.jshuin.todorespuestas;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,9 +12,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -105,18 +108,44 @@ public class RegistrarUsuario extends AppCompatActivity {
 
                 if(validationsAreOkay()){
 
-                    Toast.makeText(getApplicationContext(),"El usuario ha sido registrado",Toast.LENGTH_SHORT).show();
-                    //finish();
-                    SharedPreferences datos = getSharedPreferences("datosusuario", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = datos.edit();
-                    editor.putString("correo","aplicacion@gmail.com");
-                    editor.commit();
-                    Intent irAListaPreguntas = new Intent(RegistrarUsuario.this,MainActivity.class);
-                    irAListaPreguntas.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(irAListaPreguntas);
-                    finish();
+                    manageProgressDialog();
                 }
         }
+    }
+
+    private void manageProgressDialog() {
+
+        final ProgressDialog progressDialog = new ProgressDialog(RegistrarUsuario.this,
+                R.style.AppTheme_Dark_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Registrando...");
+        progressDialog.show();
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        // On complete call either onLoginSuccess or onLoginFailed
+                        prepareNextActivity();
+                        progressDialog.dismiss();
+                    }
+                }, 3000);
+
+    }
+
+    private void prepareNextActivity() {
+
+        Toast.makeText(getApplicationContext(),"El usuario ha sido registrado. Ya puedes iniciar sesión",Toast.LENGTH_SHORT).show();
+        SharedPreferences datos = getSharedPreferences("datosusuario", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = datos.edit();
+        editor.putString("correo","aplicacion@gmail.com");
+        editor.commit();
+        Intent irAListaPreguntas = new Intent(RegistrarUsuario.this,MainActivity.class);
+        irAListaPreguntas.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(irAListaPreguntas);
+        finish();
+
     }
 
     private boolean validationsAreOkay() {
@@ -152,4 +181,6 @@ public class RegistrarUsuario extends AppCompatActivity {
 
         return  valueToReturn;
     }
+
+
 }

@@ -1,9 +1,11 @@
 package com.android.jshuin.todorespuestas;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.BindView;
@@ -26,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.MainloginButtom)
     Button loginButtom;
     @BindView(R.id.MainregistrarButtom)
-    Button registrarButtom;
+    TextView registrarButtom;
     @BindView(R.id.Mainusuario)
     EditText nombreUsuario;
     @BindView(R.id.Maincontra)
@@ -36,18 +39,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         ButterKnife.bind(this);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        viewSettings();
+    }
+
+    private void viewSettings() {
+        registrarButtom.setPaintFlags(registrarButtom.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        registrarButtom.setText("¿No tienes una cuenta?  Registrate");
     }
 
     @Override
@@ -94,17 +93,9 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.MainloginButtom)
     public void logear(){
         if(nombreUsuario.getText().toString().matches("")||contrasena.getText().toString().matches("")){
-            Toast.makeText(getApplicationContext(),"Por favor ngrese sus datos",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"Ingresa tu usuario y contraseña",Toast.LENGTH_LONG).show();
         }else{
-            Toast.makeText(getApplicationContext(),"Ingresando",Toast.LENGTH_SHORT).show();
-            Intent irAListaPreguntas = new Intent(MainActivity.this,ListaPreguntas.class);
-            startActivity(irAListaPreguntas);
-
-            SharedPreferences datos = getSharedPreferences("datosusuario", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = datos.edit();
-            editor.putString("correo","aplicacion@gmail.com");
-            editor.commit();
-
+            manageProgressDialog();
         }
 
     }
@@ -114,7 +105,38 @@ public class MainActivity extends AppCompatActivity {
     public void registrar(){
         Intent irARegistrar = new Intent(MainActivity.this,RegistrarUsuario.class);
         startActivity(irARegistrar);
-        Toast.makeText(getApplicationContext(),"volvio",Toast.LENGTH_SHORT).show();
+    }
+
+    private void manageProgressDialog() {
+
+        final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this,
+                R.style.AppTheme_Dark_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Iniciando...");
+        progressDialog.show();
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        // On complete call either onLoginSuccess or onLoginFailed
+                        prepareNextActivity();
+                        progressDialog.dismiss();
+                    }
+                }, 3000);
+
+    }
+
+    private void prepareNextActivity() {
+
+        Intent irAListaPreguntas = new Intent(MainActivity.this,ListaPreguntas.class);
+        startActivity(irAListaPreguntas);
+
+        SharedPreferences datos = getSharedPreferences("datosusuario", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = datos.edit();
+        editor.putString("correo","aplicacion@gmail.com");
+        editor.commit();
     }
 
 }
