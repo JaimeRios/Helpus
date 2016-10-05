@@ -105,10 +105,10 @@ public class ListaPreguntas extends AppCompatActivity {
             arrayList.add("Pregunta #"+index);
         }
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                arrayList );
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
+                R.layout.text_in_cells,
+                arrayList
+        );
         listaPreguntas.setAdapter(arrayAdapter);
 
         listaPreguntas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
