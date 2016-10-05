@@ -12,17 +12,14 @@
     tools:context="com.android.jshuin.todorespuestas.ListaPreguntas"
     tools:showIn="@layout/activity_lista_preguntas">
 
-    <GridView
+    <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:numColumns="2"
+        android:layout_height="wrap_content"
         android:id="@+id/ListaPrelistaTemas"
-        android:clickable="true"
-        android:background="@color/colorPrimary"
-        android:textAlignment="center"
-        android:verticalSpacing="10dp">
+        >
 
-    </GridView>
+
+    </ListView>
 
 
 </RelativeLayout>

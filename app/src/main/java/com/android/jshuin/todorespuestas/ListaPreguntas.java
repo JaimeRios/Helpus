@@ -13,11 +13,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,7 +29,7 @@ import butterknife.OnItemClick;
 public class ListaPreguntas extends AppCompatActivity {
 
     @BindView(R.id.ListaPrelistaTemas)
-    GridView listaPreguntas;
+    ListView listaPreguntas;
     ArrayList<String> preguntas = new ArrayList<>();
 
     @Override
@@ -39,15 +42,6 @@ public class ListaPreguntas extends AppCompatActivity {
 
         traerDatos();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent irAgregarTema = new Intent(ListaPreguntas.this,AgregarTema.class);
-                startActivity(irAgregarTema);
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-            }
-        });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
@@ -99,20 +93,34 @@ public class ListaPreguntas extends AppCompatActivity {
 
 
     public void traerDatos(){
-        ArrayList<String> arrayList = new ArrayList<>();
-        preguntas.clear();
-        arrayList.add("Como se hace un splash en android?");
-        preguntas.add("Como se hace un splash en android?");
-        arrayList.add(" => ");
-        arrayList.add("Como creo una base de datos con sqlite en android?");
-        preguntas.add("Como creo una base de datos con sqlite en android?");
-        arrayList.add(" => ");
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplication(),android.R.layout.simple_list_item_1,arrayList);
+
+        // Instanciating an array list (you don't need to do this,
+        // you already have yours).
+        List<String> your_array_list = new ArrayList<String>();
+        your_array_list.add("foo");
+        your_array_list.add("bar");
+
+        // This is the array adapter, it takes the context of the activity as a
+        // first parameter, the type of list view as a second parameter and your
+        // array as a third parameter.
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                your_array_list );
+
         listaPreguntas.setAdapter(arrayAdapter);
+
+        listaPreguntas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(getApplicationContext(),"hola"+i,Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
     }
 
-    @OnItemClick(R.id.ListaPrelistaTemas)
+    /*@OnItemClick(R.id.ListaPrelistaTemas)
     void onItemSelected(int position){
         // TODO ...
         int fila,columna;
@@ -125,6 +133,6 @@ public class ListaPreguntas extends AppCompatActivity {
             startActivity(irAgregarRespuesta);
 
         }
-    }
+    }*/
 
 }
