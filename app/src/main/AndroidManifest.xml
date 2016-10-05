@@ -6,13 +6,12 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label=" "
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -31,7 +30,6 @@
         </activity>
         <activity
             android:name=".ListaPreguntas"
-            android:label="@string/title_activity_lista_preguntas"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -49,7 +47,7 @@
         </activity>
         <activity
             android:name=".AgregarRespuesta"
-            android:label="@string/title_activity_agregar_respuesta"
+            android:label=" "
             android:parentActivityName=".ListaPreguntas"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

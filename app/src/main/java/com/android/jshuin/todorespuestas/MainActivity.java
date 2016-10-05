@@ -197,8 +197,9 @@ public class MainActivity extends AppCompatActivity {
                 new Runnable() {
                     public void run() {
                         // On complete call either onLoginSuccess or onLoginFailed
-                        prepareNextActivity();
                         progressDialog.dismiss();
+                        prepareNextActivity();
+                        finish();
                     }
                 }, 2000);
 
@@ -209,10 +210,6 @@ public class MainActivity extends AppCompatActivity {
         Intent irAListaPreguntas = new Intent(MainActivity.this,ListaPreguntas.class);
         startActivity(irAListaPreguntas);
 
-        /*SharedPreferences datos = getSharedPreferences("datosusuario", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = datos.edit();
-        editor.putString("correo","aplicacion@gmail.com");
-        editor.commit();*/
     }
 
 }

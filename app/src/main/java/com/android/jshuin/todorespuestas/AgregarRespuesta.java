@@ -128,13 +128,13 @@ public class AgregarRespuesta extends AppCompatActivity {
 
         List<String> arrayList = new ArrayList<String>();
         for (int index=0;index<20;index++){
-            arrayList.add("Pregunta #"+index);
+            arrayList.add("Respuesta #"+index);
         }
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                arrayList );
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
+                R.layout.text_in_cells,
+                arrayList
+        );
         listaRespuestas.setAdapter(arrayAdapter);
 
     }
