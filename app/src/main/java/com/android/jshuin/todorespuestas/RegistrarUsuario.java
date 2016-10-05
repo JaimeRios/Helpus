@@ -216,7 +216,7 @@ public class RegistrarUsuario extends AppCompatActivity {
 
         boolean valueToReturn = false;
         // Validate there is an user registered with this alias
-        if(nombreUsuario.getText().toString().equals("")){
+        if(nombreUsuario.getText().toString().equals("Jeff")){
 
             valueToReturn = true;
         }else {
