@@ -19,6 +19,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -34,6 +45,11 @@ public class AgregarTema extends AppCompatActivity {
     @BindView(R.id.agregarTemaButtom)
     Button agregartema;
 
+    RequestQueue requestQueue;
+    StringRequest stringRequest;
+
+    private static final String URL= "http://192.168.1.5:8888/Clientesres/preguntar.php";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +58,8 @@ public class AgregarTema extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);{}
         ButterKnife.bind(this);
+
+        requestQueue= Volley.newRequestQueue(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -114,12 +132,40 @@ public class AgregarTema extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Por favor ingrese la informacion de todos los campos",Toast.LENGTH_SHORT).show();
         }else{
             //Envie la informacion a la base de datos aqui
+            makeHttpRequest();
             Intent irAListaPreguntas = new Intent(AgregarTema.this,ListaPreguntas.class);
             irAListaPreguntas.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(irAListaPreguntas);
             finish();
         }
 
+    }
+
+    private void makeHttpRequest() {
+        stringRequest= new StringRequest(Request.Method.POST, URL, new
+                Response.Listener<String>(){
+                    @Override
+                    public void onResponse (String Response) {
+                        //Toast.makeText(getApplicationContext(), "sus datos ha sido ingresado", Toast.LENGTH_LONG).show();
+                    }
+                }, new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse (VolleyError error){
+                Toast.makeText(getApplicationContext(),""+error,Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String,String> getParams()throws AuthFailureError {
+                HashMap<String,String> envio= new HashMap<>();
+                envio.put("tema",titulo.getText().toString());
+                envio.put("correo",correo.getText().toString());
+                envio.put("pregunta",pregunta.getText().toString());
+                //envio.put("id",id.getText().toString());
+                return  envio;
+
+            }
+        };
+        requestQueue.add(stringRequest);
     }
 
 }

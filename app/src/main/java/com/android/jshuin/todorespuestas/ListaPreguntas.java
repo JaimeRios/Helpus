@@ -19,6 +19,10 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +36,8 @@ public class ListaPreguntas extends AppCompatActivity {
     ListView listaPreguntas;
     ArrayList<String> preguntas = new ArrayList<>();
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +47,8 @@ public class ListaPreguntas extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         ButterKnife.bind(this);
+
+
 
         loadQuestions();
 
