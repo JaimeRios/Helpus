@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +30,7 @@ import butterknife.OnClick;
 
 public class AgregarRespuesta extends AppCompatActivity {
 
-    String Tema;
+    int questionSelected;
     @BindView(R.id.ListaRestitulo)
     TextView titulo;
     @BindView(R.id.ListaResrespuesta)
@@ -36,7 +38,7 @@ public class AgregarRespuesta extends AppCompatActivity {
     @BindView(R.id.ListaRescorreo)
     EditText correo;
     @BindView(R.id.ListaReslistaRespuestas)
-    ListView listaRespuetas;
+    ListView listaRespuestas;
     @BindView(R.id.ListaResAgregarRespuesta)
     Button AgregarResButton;
 
@@ -47,20 +49,20 @@ public class AgregarRespuesta extends AppCompatActivity {
         setContentView(R.layout.activity_agregar_respuesta);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ButterKnife.bind(this);
 
+        viewSettings();
+    }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    private void viewSettings() {
 
-            }
-        });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        Tema = getIntent().getStringExtra("Tema");
-        titulo.setText(Tema);
-        traerRespuestas();
+        questionSelected = getIntent().getIntExtra("questionSelected",0);
+        titulo.setText("Tema de la pregunta");
+        Toast.makeText(getApplicationContext(),"Pregunta seleccionada: "+questionSelected,Toast.LENGTH_SHORT).show();
+        loadSharePreferences();
+        loadAnswers();
     }
 
     @Override
@@ -116,22 +118,28 @@ public class AgregarRespuesta extends AppCompatActivity {
         if(nuevaRespuesta.getText().toString().matches("")||correo.getText().toString().matches("")){
             Toast.makeText(getApplicationContext(),"Por favor complete toda la informacion",Toast.LENGTH_SHORT).show();
         }else{
-            ///ingrsese la informacion a base de datos
-            Intent irAListaPreguntas = new Intent(AgregarRespuesta.this,ListaPreguntas.class);
-            irAListaPreguntas.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(irAListaPreguntas);
-            finish();
+            Toast.makeText(getApplicationContext(),"Tu respuesta fue registrada",Toast.LENGTH_SHORT).show();
+            loadAnswers();
         }
 
     }
 
-    public void traerRespuestas(){
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add("Eso es posible realizando lo siguiente"+" Respondio "+"Jefferson el 23 de Septeimbre 5:30");
-        arrayList.add("Para realizar lo que deseas debes comenzar teniendo en cuenta tu objetivo"+" Respondio "+"Yeddy el 24 de Septeimbre 12:50");
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplication(),android.R.layout.simple_list_item_1,arrayList);
-        listaRespuetas.setAdapter(arrayAdapter);
+    public void loadAnswers(){
 
+        List<String> arrayList = new ArrayList<String>();
+        for (int index=0;index<20;index++){
+            arrayList.add("Pregunta #"+index);
+        }
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                arrayList );
+        listaRespuestas.setAdapter(arrayAdapter);
+
+    }
+
+    private void loadSharePreferences() {
         SharedPreferences datos = getSharedPreferences("datosusuario", Context.MODE_PRIVATE);
         correo.setText(datos.getString("correo",""));
         SharedPreferences.Editor editor = datos.edit();

@@ -40,7 +40,7 @@ public class ListaPreguntas extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
 
-        traerDatos();
+        loadQuestions();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -92,47 +92,29 @@ public class ListaPreguntas extends AppCompatActivity {
     }
 
 
-    public void traerDatos(){
+    public void loadQuestions(){
 
-        // Instanciating an array list (you don't need to do this,
-        // you already have yours).
-        List<String> your_array_list = new ArrayList<String>();
-        your_array_list.add("foo");
-        your_array_list.add("bar");
+        List<String> arrayList = new ArrayList<String>();
+        for (int index=0;index<20;index++){
+            arrayList.add("Pregunta #"+index);
+        }
 
-        // This is the array adapter, it takes the context of the activity as a
-        // first parameter, the type of list view as a second parameter and your
-        // array as a third parameter.
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 this,
                 android.R.layout.simple_list_item_1,
-                your_array_list );
-
+                arrayList );
         listaPreguntas.setAdapter(arrayAdapter);
 
         listaPreguntas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getApplicationContext(),"hola"+i,Toast.LENGTH_SHORT).show();
+
+                Intent irAgregarRespuesta = new Intent(ListaPreguntas.this,AgregarRespuesta.class);
+                irAgregarRespuesta.putExtra("questionSelected",i);
+                startActivity(irAgregarRespuesta);
             }
         });
 
-
     }
-
-    /*@OnItemClick(R.id.ListaPrelistaTemas)
-    void onItemSelected(int position){
-        // TODO ...
-        int fila,columna;
-        if(position%2==0){//columna 1
-            fila=position/2+1;
-        }else{//columna2
-            fila=(position-1)/2+1;
-            Intent irAgregarRespuesta = new Intent(ListaPreguntas.this,AgregarRespuesta.class);
-            irAgregarRespuesta.putExtra("Tema",preguntas.get(fila-1));
-            startActivity(irAgregarRespuesta);
-
-        }
-    }*/
 
 }
