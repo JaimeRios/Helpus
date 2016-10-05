@@ -48,8 +48,6 @@ public class ListaPreguntas extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-
-
         loadQuestions();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -61,8 +59,6 @@ public class ListaPreguntas extends AppCompatActivity {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

@@ -38,7 +38,7 @@
         </activity>
         <activity
             android:name=".AgregarTema"
-            android:label="@string/title_activity_agregar_tema"
+            android:label=" "
             android:parentActivityName=".ListaPreguntas"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
