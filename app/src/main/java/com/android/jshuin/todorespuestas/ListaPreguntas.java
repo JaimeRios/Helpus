@@ -38,11 +38,17 @@ public class ListaPreguntas extends AppCompatActivity {
         setContentView(R.layout.activity_lista_preguntas);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
         ButterKnife.bind(this);
 
         loadQuestions();
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Do Nothing
     }
 
     @Override

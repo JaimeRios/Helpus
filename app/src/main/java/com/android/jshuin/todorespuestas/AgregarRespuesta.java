@@ -128,7 +128,7 @@ public class AgregarRespuesta extends AppCompatActivity {
 
         List<String> arrayList = new ArrayList<String>();
         for (int index=0;index<20;index++){
-            arrayList.add("Pregunta #"+index);
+            arrayList.add("Respuesta #"+index);
         }
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
