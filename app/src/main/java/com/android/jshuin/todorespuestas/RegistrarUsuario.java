@@ -52,7 +52,7 @@ public class RegistrarUsuario extends AppCompatActivity {
     RequestQueue requestQueue;
     StringRequest stringRequest;
 
-    private static final String URL= "http://172.17.2.20:8888/Clientesres/insertar.php";
+    private static final String URL= "http://192.168.1.5:8888/Clientesres/insertar.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,7 +183,7 @@ public class RegistrarUsuario extends AppCompatActivity {
 
     private void prepareNextActivity() {
 
-        Intent irAListaPreguntas = new Intent(RegistrarUsuario.this,MainActivity.class);
+        Intent irAListaPreguntas = new Intent(RegistrarUsuario.this,ListaPreguntas.class);
         irAListaPreguntas.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(irAListaPreguntas);
         finish();
@@ -216,7 +216,7 @@ public class RegistrarUsuario extends AppCompatActivity {
 
         boolean valueToReturn = false;
         // Validate there is an user registered with this alias
-        if(nombreUsuario.getText().toString().equals("Jeff")){
+        if(nombreUsuario.getText().toString().equals("")){
 
             valueToReturn = true;
         }else {

@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
     Boolean loginSuccessfull;
 
-    private static final String URL= "http://172.17.2.20:8888/Clientesres/consultar.php";
+    private static final String URL= "http://192.168.1.5:8888/Clientesres/consultar.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,12 +121,12 @@ public class MainActivity extends AppCompatActivity {
         }else{
 
             makeHttpRequest();
-            manageProgressDialog();
-            /*if(loginSuccessfull){
+            //manageProgressDialog();
+            if(loginSuccessfull){
                 manageProgressDialog();
             }else {
                 Toast.makeText(getApplicationContext(),"Usuario o Contraseña Incorrecta",Toast.LENGTH_LONG).show();
-            }*/
+            }
         }
     }
 
