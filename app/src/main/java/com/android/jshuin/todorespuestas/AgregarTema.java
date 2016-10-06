@@ -27,6 +27,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -134,6 +137,8 @@ public class AgregarTema extends AppCompatActivity {
     }
 
     private void makeHttpRequest() {
+        DateFormat df = new SimpleDateFormat("MMMM dd, yyyy, HH:mm");
+        final String date = df.format(Calendar.getInstance().getTime());
         stringRequest= new StringRequest(Request.Method.POST, URL, new
                 Response.Listener<String>(){
                     @Override
@@ -152,7 +157,7 @@ public class AgregarTema extends AppCompatActivity {
                 envio.put("tema",titulo.getText().toString());
                 envio.put("correo",correo.getText().toString());
                 envio.put("pregunta",pregunta.getText().toString());
-                //envio.put("id",id.getText().toString());
+                envio.put("hora",date);
                 return  envio;
 
             }

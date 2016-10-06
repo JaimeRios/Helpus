@@ -1,8 +1,10 @@
 package com.android.jshuin.todorespuestas;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,12 +21,21 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,7 +47,10 @@ public class ListaPreguntas extends AppCompatActivity {
     ListView listaPreguntas;
     ArrayList<String> preguntas = new ArrayList<>();
 
+    RequestQueue requestQueue;
+    StringRequest stringRequest;
 
+    private static final String URL= "http://192.168.1.5:8888/Clientesres/consultarpreguta.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +61,7 @@ public class ListaPreguntas extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         ButterKnife.bind(this);
+        requestQueue= Volley.newRequestQueue(this);
 
         loadQuestions();
 
@@ -114,6 +129,49 @@ public class ListaPreguntas extends AppCompatActivity {
 
 
     public void loadQuestions(){
+
+        stringRequest= new StringRequest(Request.Method.POST, URL, new
+                Response.Listener<String>(){
+                    @Override
+                    public void onResponse (String Response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(Response);
+
+                            if (jsonObject.names().get(0).equals("logueado")) {
+                                String correousu = jsonObject.getString("logueado");
+                                SharedPreferences guardar =getSharedPreferences("datosusuario", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = guardar.edit();
+                                editor.putString("correo", correousu);
+                                editor.commit();
+                                //Toast.makeText(getApplicationContext(), "Bienvenido" + correousu, Toast.LENGTH_LONG).show();
+                                //startActivity(new Intent(getApplicationContext(),ListaPreguntas.class));
+                            }
+                            else{
+
+                                //Toast.makeText(getApplicationContext(),"Error"+jsonObject.getString("error"),Toast.LENGTH_LONG).show();
+                            }
+                        } catch (JSONException e) {
+                            //
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse (VolleyError error){
+                Toast.makeText(getApplicationContext(),""+error,Toast.LENGTH_LONG).show();
+
+            }
+        }){
+            /*@Override
+            protected Map<String,String> getParams()throws AuthFailureError {
+                HashMap<String,String> envio= new HashMap<>();
+                envio.put("usuario",nombreUsuario.getText().toString());
+                envio.put("contra",contrasena.getText().toString());
+                return  envio;
+
+            }*/
+        };
+        requestQueue.add(stringRequest);
 
         List<String> arrayList = new ArrayList<String>();
         for (int index=0;index<20;index++){

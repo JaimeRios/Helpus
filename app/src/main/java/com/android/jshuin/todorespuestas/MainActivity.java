@@ -121,14 +121,14 @@ public class MainActivity extends AppCompatActivity {
         }else{
 
             makeHttpRequest();
-            manageProgressDialog();
-            /*
+            //manageProgressDialog();
+
             if(loginSuccessfull){
                 manageProgressDialog();
             }else {
                 Toast.makeText(getApplicationContext(),"Usuario o Contraseña Incorrecta",Toast.LENGTH_LONG).show();
             }
-            */
+
         }
     }
 
