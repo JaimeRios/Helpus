@@ -10,5 +10,6 @@
     <string name="opcion3">Cerrar sesion</string>
     <string name="sobreNosotros">Yeddy Jimenez Ing. Electrónica \n Jefferson Velez Ing. Electrónico \n Jaime Rios Ing. Electrónico</string>
     <string name="sobreAplicacion">Es una aplicacion para realizar preguntas sobre cualquier tema y a su vez aportar respuestas a las preguntas realizadas por otros usuarios.</string>
+    <string name="title_activity_splash_nice">SplashNice</string>
 
 </resources>
