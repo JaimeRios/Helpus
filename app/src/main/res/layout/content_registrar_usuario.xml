@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,6 +8,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.android.jshuin.todorespuestas.RegistrarUsuario"
     tools:showIn="@layout/activity_registrar_usuario">
@@ -16,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/Registrartextimput1"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="100dp"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:gravity="center_horizontal">
@@ -27,6 +29,7 @@
             android:id="@+id/Registraringresarusuario"
             android:hint="Ingrese nombre de usuario"
             android:textAlignment="center"
+            android:textColor="@color/monsoon"
             android:inputType="text"
             android:ems="12"
             android:gravity="center_horizontal"
@@ -52,6 +55,7 @@
             android:id="@+id/Registraringresarcontra"
             android:hint="Ingresar la contraseña"
             android:textAlignment="center"
+            android:textColor="@color/monsoon"
             android:inputType="text|textPassword"
             android:ems="12"
             android:gravity="center_horizontal"
@@ -76,6 +80,7 @@
             android:id="@+id/Registraringresarcontra2"
             android:hint="Repetir la contraseña"
             android:textAlignment="center"
+            android:textColor="@color/monsoon"
             android:inputType="text|textPassword"
             android:ems="12"
             android:gravity="center_horizontal"
@@ -100,6 +105,7 @@
             android:id="@+id/Registraringresarcorreo"
             android:hint="Ingresar correo"
             android:textAlignment="center"
+            android:textColor="@color/monsoon"
             android:inputType="textEmailAddress"
             android:ems="12"
             android:gravity="center_horizontal"
@@ -108,13 +114,15 @@
     </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:textColor="@color/white"
+        android:background="@color/colorAccent"
         android:text="Registrar usuario"
         android:id="@+id/RegistrarButtom"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="25dp"
         android:layout_below="@+id/Registrartextimput4"
         />
 
-</RelativeLayout>
+</LinearLayout>

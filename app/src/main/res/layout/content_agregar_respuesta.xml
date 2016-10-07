@@ -56,6 +56,7 @@
                 android:id="@+id/ListaResrespuesta"
                 android:hint="Agregar respuesta"
                 android:textAlignment="center"
+                android:textColor="@color/monsoon"
                 android:inputType="text"
                 android:ems="12"
                 android:gravity="center_horizontal"
@@ -79,6 +80,7 @@
                 android:id="@+id/ListaRescorreo"
                 android:hint="Agregue o modifique correo"
                 android:textAlignment="center"
+                android:textColor="@color/monsoon"
                 android:inputType="text"
                 android:ems="12"
                 android:gravity="center_horizontal"
@@ -88,10 +90,12 @@
 
         <Button
             android:layout_width="300dp"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
+            android:textColor="@color/white"
+            android:background="@color/colorAccent"
             android:id="@+id/ListaResAgregarRespuesta"
             android:text="Enviar Respuesta"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="20dp"
             android:layout_below="@+id/ListaRescorreo"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />

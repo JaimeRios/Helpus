@@ -174,7 +174,7 @@ public class RegistrarUsuario extends AppCompatActivity {
 
     private void prepareNextActivity() {
 
-        Intent irAListaPreguntas = new Intent(RegistrarUsuario.this,ListaPreguntas.class);
+        Intent irAListaPreguntas = new Intent(RegistrarUsuario.this,MainActivity.class);
         irAListaPreguntas.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(irAListaPreguntas);
         finish();

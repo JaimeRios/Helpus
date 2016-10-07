@@ -71,7 +71,6 @@ public class ListaPreguntas extends AppCompatActivity {
             public void onClick(View view) {
                 Intent irAgregarTema = new Intent(ListaPreguntas.this,AgregarTema.class);
                 startActivity(irAgregarTema);
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
     }
@@ -180,7 +179,7 @@ public class ListaPreguntas extends AppCompatActivity {
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 this,
-                android.R.layout.simple_list_item_1,
+                R.layout.text_in_cells,
                 arrayList );
         listaPreguntas.setAdapter(arrayAdapter);
 

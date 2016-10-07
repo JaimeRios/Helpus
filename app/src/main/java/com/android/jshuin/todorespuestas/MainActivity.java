@@ -121,13 +121,15 @@ public class MainActivity extends AppCompatActivity {
         }else{
 
             makeHttpRequest();
-            //manageProgressDialog();
+            manageProgressDialog();
 
+            /*
             if(loginSuccessfull){
                 manageProgressDialog();
             }else {
                 Toast.makeText(getApplicationContext(),"Usuario o Contraseña Incorrecta",Toast.LENGTH_LONG).show();
             }
+            */
 
         }
     }
@@ -188,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
     private void manageProgressDialog() {
 
         final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this,
-                R.style.AppTheme_Dark_Dialog);
+                R.style.Custom_Progress_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Iniciando...");
         progressDialog.show();
