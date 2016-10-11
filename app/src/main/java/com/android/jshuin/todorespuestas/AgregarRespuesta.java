@@ -21,8 +21,26 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,6 +60,13 @@ public class AgregarRespuesta extends AppCompatActivity {
     @BindView(R.id.ListaResAgregarRespuesta)
     Button AgregarResButton;
 
+    RequestQueue requestQueue;
+    StringRequest stringRequest;
+
+    ArrayList<String> listaRespuestaGlobal = new ArrayList<String>();
+
+    private static final String URL= "http://192.168.1.5:8888/Clientesres/responder.php";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +78,40 @@ public class AgregarRespuesta extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ButterKnife.bind(this);
 
+        requestQueue= Volley.newRequestQueue(this);
+        questionSelected = getIntent().getExtras().getInt("questionSelected");
         viewSettings();
+
+
+    }
+
+    private void addanswer() {
+        DateFormat df = new SimpleDateFormat("MMMM dd, yyyy, HH:mm");
+        final String date = df.format(Calendar.getInstance().getTime());
+        stringRequest= new StringRequest(Request.Method.POST, URL, new
+                Response.Listener<String>(){
+                    @Override
+                    public void onResponse (String Response) {
+                        //Toast.makeText(getApplicationContext(), "su respuesta ha sido ingresada", Toast.LENGTH_LONG).show();
+                    }
+                }, new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse (VolleyError error){
+                Toast.makeText(getApplicationContext(),""+error,Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String,String> getParams()throws AuthFailureError {
+                HashMap<String,String> envio= new HashMap<>();
+                envio.put("correo",correo.getText().toString());
+                envio.put("respuesta",nuevaRespuesta.getText().toString());
+                envio.put("fecha",date);
+                envio.put("id",""+questionSelected);
+                return  envio;
+
+            }
+        };
+        requestQueue.add(stringRequest);
     }
 
     private void viewSettings() {
@@ -119,25 +177,53 @@ public class AgregarRespuesta extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Por favor complete toda la informacion",Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(getApplicationContext(),"Tu respuesta fue registrada",Toast.LENGTH_SHORT).show();
+            addanswer();
             loadAnswers();
         }
 
     }
 
     public void loadAnswers(){
+        Toast.makeText(getApplicationContext(), "Bienvenido" , Toast.LENGTH_LONG).show();
+        final ArrayList<String> arrayList = new ArrayList<String>();
+        listaRespuestaGlobal.clear();
+        final String [] argumento = {Integer.toString(questionSelected)};
+        JsonArrayRequest request = new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        JSONObject objeto = response.getJSONObject(i);
+                        //String argumento = objeto.getString("id");
+                        String respuesta = objeto.getString("respuesta");
+                        String correo = objeto.getString("correo");
+                        String fecha = objeto.getString("fecha");
+                        listaRespuestaGlobal.add( respuesta + "\n" + "Por " + correo + " a las " + fecha);
+                        arrayList.add(respuesta + "\n" + "Por " + correo + " a las " + fecha + i);
+                        Toast.makeText(getApplicationContext(), respuesta+"\n"+"Por "+correo+" a las "+fecha, Toast.LENGTH_LONG).show();
 
-        List<String> arrayList = new ArrayList<String>();
-        for (int index=0;index<20;index++){
-            arrayList.add("Respuesta #"+index);
-        }
+                    }
+                        catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "Error Json: " + e, Toast.LENGTH_LONG).show();
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
-                R.layout.text_in_cells,
-                arrayList
-        );
-        listaRespuestas.setAdapter(arrayAdapter);
+                    }
+                }
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.text_in_cells, arrayList);
+                listaRespuestas.setAdapter(arrayAdapter);
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "Error volley: " + error, Toast.LENGTH_LONG).show();
+
+            }
+        });
+        requestQueue.add(request);
 
     }
+
 
     private void loadSharePreferences() {
         SharedPreferences datos = getSharedPreferences("datosusuario", Context.MODE_PRIVATE);
